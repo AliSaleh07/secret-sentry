@@ -62,3 +62,7 @@ sentry scan . --format json -o secrets.json
 ```bash
 pytest -v tests/
 ```
+---
+
+## Safe Use & Privacy Disclaimer
+*Secret Sentry is designed exclusively as a local-first, zero-exfiltration static analysis tool to prevent accidental credential leakage. It executes completely offline without transmitting data externally and must only be used on codebases and directories you have authorization to inspect.*
