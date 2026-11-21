@@ -25,7 +25,7 @@ def format_terminal(summary: ScanSummary, use_color: bool = True) -> str:
     lines.append(f"{c_gray}Timestamp:{c_reset} {summary.scan_timestamp}\n")
 
     if summary.is_clean:
-        lines.append(f"{c_green}[✓] Zero exposed secrets or credentials detected.{c_reset}\n")
+        lines.append(f"{c_green}[OK] Zero exposed secrets or credentials detected.{c_reset}\n")
         return "\n".join(lines)
 
     lines.append(f"{c_red}{c_bold}[!] {summary.total_findings} Exposed Secret(s) Found:{c_reset}")
