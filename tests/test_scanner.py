@@ -13,7 +13,6 @@ def test_scan_clean_fixture():
 
 def test_scan_leaks_fixture(tmp_path):
     leak_file = tmp_path / "sample_leaks.txt"
-    # Construct synthetic test tokens dynamically to prevent GitHub Push Protection triggers on repo code
     pfx_stripe = "sk_" + "live_"
     pfx_slack = "xoxb-"
     content = (
@@ -40,3 +39,12 @@ def test_scan_directory_clean():
     summary = scan_directory(path)
     assert summary.is_clean is True
     assert summary.total_findings == 0
+
+
+def test_skip_oversized_file(tmp_path, monkeypatch):
+    import secret_sentry.scanner as scanner_mod
+    monkeypatch.setattr(scanner_mod, "MAX_FILE_SIZE_BYTES", 100)
+    oversized = tmp_path / "oversized.txt"
+    oversized.write_text("A" * 200, encoding="utf-8")
+    findings = scanner_mod.scan_file(str(oversized))
+    assert len(findings) == 0

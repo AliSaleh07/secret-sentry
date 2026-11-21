@@ -24,6 +24,8 @@ BINARY_EXTENSIONS: Set[str] = {
     ".exe", ".dll", ".so", ".dylib", ".bin", ".iso", ".woff", ".woff2", ".ttf"
 }
 
+MAX_FILE_SIZE_BYTES: int = 10 * 1024 * 1024  # 10 MB limit
+
 
 def is_binary_content(sample_bytes: bytes) -> bool:
     """Heuristic check: if null bytes exist in the first 1024 bytes, treat as binary."""
@@ -34,6 +36,9 @@ def scan_file(file_path: str) -> List[SecretFinding]:
     """Scans a single text file for leaked credentials."""
     findings: List[SecretFinding] = []
     try:
+        if os.path.getsize(file_path) > MAX_FILE_SIZE_BYTES:
+            return []
+
         with open(file_path, "rb") as f:
             chunk = f.read(1024)
             if is_binary_content(chunk):
