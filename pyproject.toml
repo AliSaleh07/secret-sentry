@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "secret-sentry"
+version = "1.0.0"
+description = "A high-performance, offline local secret-scanning CLI for git repositories and files."
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [
+    {name = "Ali Saleh"}
+]
+keywords = ["security", "secrets", "scanner", "credentials", "devsecops", "entropy"]
+
+[project.scripts]
+sentry = "secret_sentry.cli:main"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
